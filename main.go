@@ -43,7 +43,6 @@ func main() {
 			chromedp.Navigate(url),
 			chromedp.Sleep(3*time.Second),
 			chromedp.FullScreenshot(&buf, 90),
-			// HTML'i yakalamak için JavaScript Evaluate kullanalım
 			chromedp.Evaluate(`document.documentElement.innerHTML`, &htmlContent),
 		)
 
@@ -55,11 +54,9 @@ func main() {
 
 		timestamp := time.Now().UnixNano()
 
-		// PNG Kaydı
 		ssName := fmt.Sprintf("ss_%d.png", timestamp)
 		_ = ioutil.WriteFile(ssName, buf, 0644)
 
-		// HTML Kaydı (Eğer string doluysa)
 		if htmlContent != "" {
 			htmlName := fmt.Sprintf("data_%d.html", timestamp)
 			_ = ioutil.WriteFile(htmlName, []byte(htmlContent), 0644)
